@@ -1,0 +1,87 @@
+<div class="example-container">
+  <table mat-table [dataSource]="dataSource">
+    <!--- Note that these columns can be defined in any order.
+        The actual rendered columns are set as a property on the row definition" -->
+
+    <!-- quesFirstAttemptDate Column -->
+    <ng-container matColumnDef="quesFirstAttemptDate" sticky>
+      <th mat-header-cell *matHeaderCellDef>Date</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.quesFirstAttemptDate }}
+      </td>
+    </ng-container>
+
+    <!-- topic Column -->
+    <ng-container matColumnDef="topic">
+      <th mat-header-cell *matHeaderCellDef>Topic</th>
+      <td mat-cell *matCellDef="let element">{{ element.topic }}</td>
+    </ng-container>
+
+    <!-- quesName Column -->
+    <ng-container matColumnDef="quesName">
+      <th mat-header-cell *matHeaderCellDef>Name</th>
+      <td mat-cell *matCellDef="let element">{{ element.quesName }}</td>
+    </ng-container>
+
+    <!-- quesDifficulty Column -->
+    <ng-container matColumnDef="quesDifficulty">
+      <th mat-header-cell *matHeaderCellDef>Difficulty</th>
+      <td mat-cell *matCellDef="let element">{{ element.quesDifficulty }}</td>
+    </ng-container>
+
+    <!-- quesPlatform Column -->
+    <ng-container matColumnDef="quesPlatform">
+      <th mat-header-cell *matHeaderCellDef>Platform</th>
+      <td mat-cell *matCellDef="let element">{{ element.quesPlatform }}</td>
+    </ng-container>
+
+    <!-- quesSolved Column -->
+    <ng-container matColumnDef="quesSolved">
+      <th mat-header-cell *matHeaderCellDef>Solved</th>
+      <td mat-cell *matCellDef="let element">{{ element.quesSolved }}</td>
+    </ng-container>
+
+    <!-- quesLink Column -->
+    <ng-container matColumnDef="quesLink">
+      <th mat-header-cell *matHeaderCellDef>Link</th>
+      <td mat-cell *matCellDef="let element">{{ element.quesLink }}</td>
+    </ng-container>
+
+    <!-- quesComment Column -->
+    <ng-container matColumnDef="quesComment">
+      <th mat-header-cell *matHeaderCellDef>Comment</th>
+      <td mat-cell *matCellDef="let element">{{ element.quesComment }}</td>
+    </ng-container>
+
+    <!-- quesSolutionLink Column -->
+    <ng-container matColumnDef="quesSolutionLink">
+      <th mat-header-cell *matHeaderCellDef>Solution Link</th>
+      <td mat-cell *matCellDef="let element">{{ element.quesSolutionLink }}</td>
+    </ng-container>
+
+    <!-- quesRepeatFreq Column -->
+    <ng-container matColumnDef="quesRepeatFreq">
+      <th mat-header-cell *matHeaderCellDef>Repeat Freq</th>
+      <td mat-cell *matCellDef="let element">{{ element.quesRepeatFreq }}</td>
+    </ng-container>
+
+    <!-- quesLastAttemptDate Column -->
+    <ng-container matColumnDef="quesLastAttemptDate">
+      <th mat-header-cell *matHeaderCellDef>Last Attempt</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.quesLastAttemptDate }}
+      </td>
+    </ng-container>
+
+    <!-- quesNextAttemptDate Column -->
+    <ng-container matColumnDef="quesNextAttemptDate">
+      <th mat-header-cell *matHeaderCellDef>Next Attempt</th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.quesNextAttemptDate }}
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+  </table>
+</div>
