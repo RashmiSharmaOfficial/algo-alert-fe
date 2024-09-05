@@ -70,8 +70,19 @@ export class TableComponent implements OnInit {
     'quesNextAttemptDate',
   ];
   dataSource = ELEMENT_DATA;
+  
+  isExpanded: { [key: string]: boolean } = {};
 
   constructor() {}
 
   ngOnInit(): void {}
+
+  isClamped(text: string): boolean {
+    const maxLength = 100; // Adjust the max length for clamping
+    return text.length > maxLength;
+  }
+
+  toggleExpand(id: string): void {
+    this.isExpanded[id] = !this.isExpanded[id];
+  }
 }
