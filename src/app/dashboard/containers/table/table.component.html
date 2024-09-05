@@ -1,87 +1,114 @@
-<div class="example-container">
-  <table mat-table [dataSource]="dataSource">
-    <!--- Note that these columns can be defined in any order.
-        The actual rendered columns are set as a property on the row definition" -->
+<div class="example-container p-6 bg-gray-50 rounded-lg shadow-md">
+  <table mat-table [dataSource]="dataSource" class="w-full text-left table-auto bg-white rounded-lg shadow-sm border border-gray-200">
 
     <!-- quesFirstAttemptDate Column -->
-    <ng-container matColumnDef="quesFirstAttemptDate" sticky>
-      <th mat-header-cell *matHeaderCellDef>Date</th>
-      <td mat-cell *matCellDef="let element">
-        {{ element.quesFirstAttemptDate }}
-      </td>
+    <ng-container matColumnDef="quesFirstAttemptDate">
+      <th mat-header-cell *matHeaderCellDef class="px-4 py-3 text-sm font-semibold text-gray-700 bg-gray-100">Date</th>
+      <td mat-cell *matCellDef="let element" class="px-4 py-3 text-sm text-gray-800">{{ element.quesFirstAttemptDate }}</td>
     </ng-container>
 
     <!-- topic Column -->
     <ng-container matColumnDef="topic">
-      <th mat-header-cell *matHeaderCellDef>Topic</th>
-      <td mat-cell *matCellDef="let element">{{ element.topic }}</td>
+      <th mat-header-cell *matHeaderCellDef class="px-4 py-3 text-sm font-semibold text-red-600 bg-gray-100">Topic</th>
+      <td mat-cell *matCellDef="let element" class="px-4 py-3 text-sm text-red-700">
+        <div class="relative">
+          <div [ngClass]="{ 'text-clamp': !isExpanded[element.quesId], 'text-expanded': isExpanded[element.quesId] }">
+            {{ element.topic.join(', ') }}
+          </div>
+          <button *ngIf="isClamped(element.topic.join(', '))" (click)="toggleExpand(element.quesId)" class="read-more-btn">
+            {{ isExpanded[element.quesId] ? 'Read less' : 'Read more' }}
+          </button>
+        </div>
+      </td>
     </ng-container>
 
     <!-- quesName Column -->
     <ng-container matColumnDef="quesName">
-      <th mat-header-cell *matHeaderCellDef>Name</th>
-      <td mat-cell *matCellDef="let element">{{ element.quesName }}</td>
+      <th mat-header-cell *matHeaderCellDef class="px-4 py-3 text-sm font-semibold text-gray-700 bg-gray-100">Name</th>
+      <td mat-cell *matCellDef="let element" class="px-4 py-3 text-sm text-gray-800">
+        <div class="relative">
+          <div [ngClass]="{ 'text-clamp': !isExpanded[element.quesId], 'text-expanded': isExpanded[element.quesId] }">
+            {{ element.quesName }}
+          </div>
+          <button *ngIf="isClamped(element.quesName)" (click)="toggleExpand(element.quesId)" class="read-more-btn">
+            {{ isExpanded[element.quesId] ? 'Read less' : 'Read more' }}
+          </button>
+        </div>
+      </td>
     </ng-container>
 
     <!-- quesDifficulty Column -->
     <ng-container matColumnDef="quesDifficulty">
-      <th mat-header-cell *matHeaderCellDef>Difficulty</th>
-      <td mat-cell *matCellDef="let element">{{ element.quesDifficulty }}</td>
+      <th mat-header-cell *matHeaderCellDef class="px-4 py-3 text-sm font-semibold text-gray-700 bg-gray-100">Difficulty</th>
+      <td mat-cell *matCellDef="let element" class="px-4 py-3 text-sm text-gray-800">{{ element.quesDifficulty }}</td>
     </ng-container>
 
     <!-- quesPlatform Column -->
     <ng-container matColumnDef="quesPlatform">
-      <th mat-header-cell *matHeaderCellDef>Platform</th>
-      <td mat-cell *matCellDef="let element">{{ element.quesPlatform }}</td>
+      <th mat-header-cell *matHeaderCellDef class="px-4 py-3 text-sm font-semibold text-gray-700 bg-gray-100">Platform</th>
+      <td mat-cell *matCellDef="let element" class="px-4 py-3 text-sm text-gray-800">{{ element.quesPlatform }}</td>
     </ng-container>
 
     <!-- quesSolved Column -->
     <ng-container matColumnDef="quesSolved">
-      <th mat-header-cell *matHeaderCellDef>Solved</th>
-      <td mat-cell *matCellDef="let element">{{ element.quesSolved }}</td>
+      <th mat-header-cell *matHeaderCellDef class="px-4 py-3 text-sm font-semibold text-gray-700 bg-gray-100">Solved</th>
+      <td mat-cell *matCellDef="let element" class="px-4 py-3 text-sm text-gray-800">
+        <mat-icon *ngIf="element.quesSolved" class="text-green-500">check_circle</mat-icon>
+        <mat-icon *ngIf="!element.quesSolved" class="text-red-500">cancel</mat-icon>
+      </td>
     </ng-container>
 
     <!-- quesLink Column -->
     <ng-container matColumnDef="quesLink">
-      <th mat-header-cell *matHeaderCellDef>Link</th>
-      <td mat-cell *matCellDef="let element">{{ element.quesLink }}</td>
+      <th mat-header-cell *matHeaderCellDef class="px-4 py-3 text-sm font-semibold text-gray-700 bg-gray-100">Link</th>
+      <td mat-cell *matCellDef="let element" class="px-4 py-3 text-sm text-gray-800">
+        <a href="{{ element.quesLink }}" target="_blank" class="text-blue-600 hover:underline">View</a>
+      </td>
     </ng-container>
 
     <!-- quesComment Column -->
     <ng-container matColumnDef="quesComment">
-      <th mat-header-cell *matHeaderCellDef>Comment</th>
-      <td mat-cell *matCellDef="let element">{{ element.quesComment }}</td>
+      <th mat-header-cell *matHeaderCellDef class="px-4 py-3 text-sm font-semibold text-gray-700 bg-gray-100">Comment</th>
+      <td mat-cell *matCellDef="let element" class="px-4 py-3 text-sm text-gray-800">
+        <div class="relative">
+          <div [ngClass]="{ 'text-clamp': !isExpanded[element.quesId], 'text-expanded': isExpanded[element.quesId] }">
+            {{ element.quesComment }}
+          </div>
+          <button *ngIf="isClamped(element.quesComment)" (click)="toggleExpand(element.quesId)" class="read-more-btn">
+            {{ isExpanded[element.quesId] ? 'Read less' : 'Read more' }}
+          </button>
+        </div>
+      </td>
     </ng-container>
 
     <!-- quesSolutionLink Column -->
     <ng-container matColumnDef="quesSolutionLink">
-      <th mat-header-cell *matHeaderCellDef>Solution Link</th>
-      <td mat-cell *matCellDef="let element">{{ element.quesSolutionLink }}</td>
+      <th mat-header-cell *matHeaderCellDef class="px-4 py-3 text-sm font-semibold text-gray-700 bg-gray-100">Solution Link</th>
+      <td mat-cell *matCellDef="let element" class="px-4 py-3 text-sm text-gray-800">
+        <a href="{{ element.quesSolutionLink }}" target="_blank" class="text-blue-600 hover:underline">View</a>
+      </td>
     </ng-container>
 
     <!-- quesRepeatFreq Column -->
     <ng-container matColumnDef="quesRepeatFreq">
-      <th mat-header-cell *matHeaderCellDef>Repeat Freq</th>
-      <td mat-cell *matCellDef="let element">{{ element.quesRepeatFreq }}</td>
+      <th mat-header-cell *matHeaderCellDef class="px-4 py-3 text-sm font-semibold text-gray-700 bg-gray-100">Repeat Freq</th>
+      <td mat-cell *matCellDef="let element" class="px-4 py-3 text-sm text-gray-800">{{ element.quesRepeatFreq }}</td>
     </ng-container>
 
     <!-- quesLastAttemptDate Column -->
     <ng-container matColumnDef="quesLastAttemptDate">
-      <th mat-header-cell *matHeaderCellDef>Last Attempt</th>
-      <td mat-cell *matCellDef="let element">
-        {{ element.quesLastAttemptDate }}
-      </td>
+      <th mat-header-cell *matHeaderCellDef class="px-4 py-3 text-sm font-semibold text-gray-700 bg-gray-100">Last Attempt</th>
+      <td mat-cell *matCellDef="let element" class="px-4 py-3 text-sm text-gray-800">{{ element.quesLastAttemptDate }}</td>
     </ng-container>
 
     <!-- quesNextAttemptDate Column -->
     <ng-container matColumnDef="quesNextAttemptDate">
-      <th mat-header-cell *matHeaderCellDef>Next Attempt</th>
-      <td mat-cell *matCellDef="let element">
-        {{ element.quesNextAttemptDate }}
-      </td>
+      <th mat-header-cell *matHeaderCellDef class="px-4 py-3 text-sm font-semibold text-gray-700 bg-gray-100">Next Attempt</th>
+      <td mat-cell *matCellDef="let element" class="px-4 py-3 text-sm text-gray-800">{{ element.quesNextAttemptDate }}</td>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    <!-- Table Header and Rows -->
+    <tr mat-header-row *matHeaderRowDef="displayedColumns" class="bg-gray-200"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns" class="hover:bg-gray-50"></tr>
   </table>
 </div>
