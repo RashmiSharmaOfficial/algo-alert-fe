@@ -40,7 +40,7 @@ export class CreateRecordComponent implements OnInit {
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
 
-    // Add our fruit
+    // Add our topic
     if (value) {
       this.topics.push((topics: any) => [...topics, { name: value }]);
     }
@@ -49,37 +49,30 @@ export class CreateRecordComponent implements OnInit {
     event.chipInput!.clear();
   }
 
-  remove(fruit: Topics): void {
-    this.topics.push((topics: any) => {
-      const index = topics.indexOf(fruit);
-      if (index < 0) {
-        return topics;
-      }
-
-      topics.splice(index, 1);
-      this.announcer.announce(`Removed ${fruit.name}`);
-      return [...topics];
-    });
-  }
-
-  edit(fruit: Topics, event: MatChipEditedEvent) {
-    const value = event.value.trim();
-
-    // Remove fruit if it no longer has a name
-    if (!value) {
-      this.remove(fruit);
-      return;
+  remove(index: number): void {
+    if (index >= 0) {
+      this.topics.splice(index, 1);
     }
-
-    // Edit existing fruit
-    this.topics.push((topics: any) => {
-      const index = topics.indexOf(fruit);
-      if (index >= 0) {
-        topics[index].name = value;
-        return [...topics];
-      }
-      return topics;
-    });
   }
+
+  // edit(topic: Topics, event: MatChipEditedEvent) {
+  //   const value = event.value.trim();
+
+  //   // Remove topic if it no longer has a name
+  //   if (!value) {
+  //     this.remove(topic);
+  //     return;
+  //   }
+
+  //   // Edit existing topic
+  //   this.topics.push((topics: any) => {
+  //     const index = topics.indexOf(topic);
+  //     if (index >= 0) {
+  //       topics[index].name = value;
+  //       return [...topics];
+  //     }
+  //     return topics;
+  //   });
+  // }
 
 }
