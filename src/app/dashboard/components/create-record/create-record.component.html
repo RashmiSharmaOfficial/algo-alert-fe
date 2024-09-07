@@ -1,1 +1,81 @@
-<p>create-record works!</p>
+<h2 mat-dialog-title>Add Question</h2>
+<mat-dialog-content class="mat-typography">
+    <form [formGroup]="addQuestionForm">
+        <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4">
+            <mat-form-field appearance="fill">
+                <mat-label>Question</mat-label>
+                <input matInput placeholder="Question" formControlName="quesName">
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Difficulty</mat-label>
+                <mat-select formControlName="quesDifficulty">
+                    <mat-option value="Easy">Easy</mat-option>
+                    <mat-option value="Medium">Medium</mat-option>
+                    <mat-option value="Hard">Hard</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Platform</mat-label>
+                <mat-select formControlName="quesPlatform">
+                    <mat-option value="Leetcode">Leetcode</mat-option>
+                    <mat-option value="GFG">GFG</mat-option>
+                    <mat-option value="InterviewBit">InterviewBit</mat-option>
+                </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Link</mat-label>
+                <input matInput placeholder="Link" formControlName="quesLink">
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Frequency</mat-label>
+                <input matInput placeholder="Repeat frequency" formControlName="quesRepeatFreq" type="number">
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Solution Link</mat-label>
+                <input matInput placeholder="Solution Link" formControlName="quesSolutionLink">
+            </mat-form-field>
+
+            <mat-form-field appearance="fill">
+                <mat-label>Topics</mat-label>
+                <input matInput placeholder="Topic" formControlName="topic">
+            </mat-form-field>
+
+            <!-- <mat-form-field>
+                <mat-label>Favorite Fruits</mat-label>
+                <mat-chip-grid #chipGrid aria-label="Enter fruits">
+                    @for (fruit of topics(); track fruit) {
+                    <mat-chip-row (removed)="remove(fruit)" [editable]="true" (edited)="edit(fruit, $event)"
+                        [aria-description]="'press enter to edit ' + fruit.name">
+                        {{fruit.name}}
+                        <button matChipRemove [attr.aria-label]="'remove ' + fruit.name">
+                            <mat-icon>cancel</mat-icon>
+                        </button>
+                    </mat-chip-row>
+                    }
+                    <input placeholder="New fruit..." [matChipInputFor]="chipGrid"
+                        [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
+                        (matChipInputTokenEnd)="add($event)" />
+                </mat-chip-grid>
+            </mat-form-field> -->
+
+            <mat-form-field appearance="fill">
+                <mat-label>Comment</mat-label>
+                <textarea matInput placeholder="Comment" formControlName="quesComment"></textarea>
+                <!-- <input matInput placeholder="Comment" formControlName="quesComment"> -->
+            </mat-form-field>
+
+
+
+
+        </div>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Cancel</button>
+    <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Save</button>
+</mat-dialog-actions>

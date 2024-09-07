@@ -6,6 +6,7 @@ import { DashboardRoutingModule } from './dashboard.routing.module';
 import { RouterModule } from '@angular/router';
 import { DashboardComponent } from './dashboard.component';
 import { MaterialModule } from '../shared/material/material.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -13,6 +14,6 @@ import { MaterialModule } from '../shared/material/material.module';
     ...fromContainers.containers,
     ...fromComponents.components,
   ],
-  imports: [CommonModule, DashboardRoutingModule, RouterModule, MaterialModule],
+  imports: [CommonModule, DashboardRoutingModule, RouterModule, MaterialModule, ReactiveFormsModule],
 })
 export class DashboardModule {}

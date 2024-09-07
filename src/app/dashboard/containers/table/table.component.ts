@@ -1,10 +1,12 @@
 
 
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { FormControl } from '@angular/forms';
 import { DIFFICULTY_BG_COLOR, DIFFICULTY_TXT_COLOR } from '../../types/enums';
+import { CreateRecordComponent } from '../../components';
+import { MatDialog } from '@angular/material/dialog';
 
 export interface CodingPracticeTable {
   quesFirstAttemptDate: string;
@@ -29,9 +31,9 @@ export interface CodingPracticeTable {
 })
 export class TableComponent implements OnInit {
   displayedColumns: string[] = [
-    'quesFirstAttemptDate', 'topic', 'quesName', 'quesDifficulty', 
-    'quesPlatform', 'quesSolved', 'quesLink', 'quesComment', 
-    'quesSolutionLink', 'quesRepeatFreq', 'quesLastAttemptDate', 
+    'quesFirstAttemptDate', 'topic', 'quesName', 'quesDifficulty',
+    'quesPlatform', 'quesSolved', 'quesLink', 'quesComment',
+    'quesSolutionLink', 'quesRepeatFreq', 'quesLastAttemptDate',
     'quesNextAttemptDate'
   ];
   dataSource = new MatTableDataSource<CodingPracticeTable>(ELEMENT_DATA);
@@ -51,9 +53,9 @@ export class TableComponent implements OnInit {
 
   ngOnInit() {
     this.dataSource.filterPredicate = (data: CodingPracticeTable, filter: string) => {
-      return data.quesName.toLowerCase().includes(filter) || 
-             data.topic.join(', ').toLowerCase().includes(filter) || 
-             data.quesComment.toLowerCase().includes(filter);
+      return data.quesName.toLowerCase().includes(filter) ||
+        data.topic.join(', ').toLowerCase().includes(filter) ||
+        data.quesComment.toLowerCase().includes(filter);
     };
   }
 
@@ -79,13 +81,24 @@ export class TableComponent implements OnInit {
     return this.dataSource;
   }
 
-  getBgColor(quesDifficulty: 'Easy' | 'Medium' | 'Hard'){
+  getBgColor(quesDifficulty: 'Easy' | 'Medium' | 'Hard') {
     return this.bgColorMap[quesDifficulty];
   }
 
-  getColor(quesDifficulty: 'Easy' | 'Medium' | 'Hard'){
+  getColor(quesDifficulty: 'Easy' | 'Medium' | 'Hard') {
     return this.textColorMap[quesDifficulty];
   }
+
+  readonly dialog = inject(MatDialog);
+
+  openCreateRecordDialog() {
+    const dialogRef = this.dialog.open(CreateRecordComponent);
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
 }
 
 const ELEMENT_DATA: CodingPracticeTable[] = [
