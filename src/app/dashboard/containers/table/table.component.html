@@ -1,4 +1,7 @@
 <div class="example-container p-6 bg-gray-50 rounded-lg shadow-md">
+  <div class="flex flex-row-reverse py-4">
+    <button mat-flat-button (click)="openCreateRecordDialog()">Add Ques</button>
+  </div>
   <table mat-table [dataSource]="dataSource" class="w-full text-left table-auto bg-white rounded-lg shadow-sm border border-gray-200">
 
     <!-- quesFirstAttemptDate Column -->
