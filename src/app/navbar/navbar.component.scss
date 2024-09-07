@@ -1,44 +1,45 @@
 header {
-    .container {
-    //   max-width: 1400px;
-      margin: 0 auto;
+  .container {
+    margin: 0 auto;
+  }
+.logoText{
+  font-size: xx-large;
+}
+  a {
+    text-decoration: none;
+    transition: color 0.3s ease;
+    font-size: medium;
+
+    &.hover\:text-purple-500:hover {
+      color: #7e22ce; // Purple-500
     }
-  
-    a {
-      text-decoration: none;
-      transition: color 0.3s ease;
-  
-      &.hover\:text-blue-500:hover {
-        color: #1d4ed8; // Blue-500
-      }
-  
-      &.hover\:text-gray-600:hover {
-        color: #4b5563; // Gray-600
-      }
-  
-      &.hover\:bg-blue-100:hover {
-        background-color: #ebf8ff; // Blue-100
-      }
-  
-      &.hover\:bg-blue-700:hover {
-        background-color: #1e40af; // Blue-700
-      }
+
+    &.hover\:text-purple-600:hover {
+      color: #6b21a8; // Purple-600
     }
-  
-    button:focus {
-      outline: none;
+
+    &.hover\:bg-purple-100:hover {
+      background-color: #f3e8ff; // Purple-100
     }
-  
-    .bg-white {
-      background-color: #ffffff;
-    }
-  
-    .text-gray-800 {
-      color: #1f2937; // Gray-800
-    }
-  
-    .shadow {
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+
+    &.hover\:bg-purple-700:hover {
+      background-color: #5b21b6; // Purple-700
     }
   }
-  
+
+  button:focus {
+    outline: none;
+  }
+
+  .bg-white {
+    background-color: #ffffff;
+  }
+
+  .text-gray-800 {
+    color: #1f2937; // Gray-800
+  }
+
+  .shadow {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  }
+}

@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import * as fromContainers from './containers';
 import * as fromComponents from './components';
 import { AuthRoutingModule } from './auth.routing.module';
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
+
 
 @NgModule({
   declarations: [
@@ -11,7 +13,11 @@ import { AuthRoutingModule } from './auth.routing.module';
   ],
   imports: [
     CommonModule,
-    AuthRoutingModule
+    AuthRoutingModule,
+    AngularFireAuthModule, // Import AngularFireAuthModule
+  ],
+  providers: [
+   
   ]
 })
 export class AuthModule { }
