@@ -4,6 +4,7 @@ import { Component, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { FormControl } from '@angular/forms';
+import { DIFFICULTY_BG_COLOR, DIFFICULTY_TXT_COLOR } from '../../types/enums';
 
 export interface CodingPracticeTable {
   quesFirstAttemptDate: string;
@@ -38,6 +39,8 @@ export class TableComponent implements OnInit {
   searchQuery: string = '';
   isExpanded: { [key: number]: boolean } = {};
   searchControl = new FormControl('');
+  bgColorMap = DIFFICULTY_BG_COLOR;
+  textColorMap = DIFFICULTY_TXT_COLOR;
 
   constructor() {
     this.searchControl.valueChanges.subscribe(value => {
@@ -74,6 +77,14 @@ export class TableComponent implements OnInit {
   get filteredDataSource() {
     this.dataSource.filter = this.searchQuery.trim().toLowerCase();
     return this.dataSource;
+  }
+
+  getBgColor(quesDifficulty: 'Easy' | 'Medium' | 'Hard'){
+    return this.bgColorMap[quesDifficulty];
+  }
+
+  getColor(quesDifficulty: 'Easy' | 'Medium' | 'Hard'){
+    return this.textColorMap[quesDifficulty];
   }
 }
 
@@ -113,6 +124,51 @@ const ELEMENT_DATA: CodingPracticeTable[] = [
     topic: ['Bitwise'],
     quesName: '136. Single Number',
     quesDifficulty: 'Medium',
+    quesPlatform: 'Leetcode',
+    quesComment: 'NA',
+    quesSolved: true,
+    quesFirstAttemptDate: '2017/05/11',
+    quesLastAttemptDate: 'NA',
+    quesNextAttemptDate: 'NA',
+    quesLink: 'https://leetcode.com/problems/rotate-array/description/',
+    quesRepeatFreq: 0,
+    quesSolutionLink: 'NA',
+  },
+  {
+    quesId: 4,
+    topic: ['Array', 'Divide and Conquer'],
+    quesName: '189. Rotate Array',
+    quesDifficulty: 'Easy',
+    quesPlatform: 'Leetcode',
+    quesComment: 'NA',
+    quesSolved: true,
+    quesFirstAttemptDate: '2017/05/11',
+    quesLastAttemptDate: 'NA',
+    quesNextAttemptDate: 'NA',
+    quesLink: 'https://leetcode.com/problems/rotate-array/description/',
+    quesRepeatFreq: 0,
+    quesSolutionLink: 'NA',
+  },
+  {
+    quesId: 5,
+    topic: ['Array', 'Two Pointers'],
+    quesName: 'Union of Two Sorted Arrays',
+    quesDifficulty: 'Medium',
+    quesPlatform: 'GFG',
+    quesComment: 'NA',
+    quesSolved: true,
+    quesFirstAttemptDate: '2017/05/11',
+    quesLastAttemptDate: 'NA',
+    quesNextAttemptDate: 'NA',
+    quesLink: 'https://leetcode.com/problems/rotate-array/description/',
+    quesRepeatFreq: 0,
+    quesSolutionLink: 'NA',
+  },
+  {
+    quesId: 6,
+    topic: ['Bitwise'],
+    quesName: '136. Single Number',
+    quesDifficulty: 'Hard',
     quesPlatform: 'Leetcode',
     quesComment: 'NA',
     quesSolved: true,

@@ -11,7 +11,7 @@ import { MaterialModule } from '../shared/material/material.module';
   declarations: [
     DashboardComponent,
     ...fromContainers.containers,
-    fromComponents.components,
+    ...fromComponents.components,
   ],
   imports: [CommonModule, DashboardRoutingModule, RouterModule, MaterialModule],
 })

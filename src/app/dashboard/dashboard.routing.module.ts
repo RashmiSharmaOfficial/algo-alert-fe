@@ -1,10 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { TableComponent } from './containers';
+import { HomeComponent, TableComponent } from './containers';
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'home',
+    component: HomeComponent,
+  },
+  {
+    path: 'questions',
     component: TableComponent,
   },
 ];
