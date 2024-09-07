@@ -6,7 +6,7 @@ import { RouterModule, Routes } from '@angular/router';
 // import { ContactComponent } from './contact/contact.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/dashboard', pathMatch: 'full' }, // Redirect to Home by default
+  { path: '', redirectTo: '', pathMatch: 'full' }, // Redirect to Home by default
   // { path: 'home', component: HomeComponent },
   // { path: 'features', component: FeaturesComponent },
   // { path: 'pricing', component: PricingComponent },

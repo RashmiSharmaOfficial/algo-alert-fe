@@ -4,7 +4,7 @@ import { HomeComponent, TableComponent } from './containers';
 
 const routes: Routes = [
   {
-    path: '',
+    path: 'home',
     component: HomeComponent,
   },
   {
