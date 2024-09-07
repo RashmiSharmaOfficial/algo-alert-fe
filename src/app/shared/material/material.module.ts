@@ -80,6 +80,7 @@ const CUSTOM_BREAKPOINTS = [
     MatCheckboxModule,
     MatProgressSpinnerModule,
     MatSliderModule,
+    MatChipsModule,
     // FlexLayoutModule.withConfig(
     //   { disableDefaultBps: true },
     //   CUSTOM_BREAKPOINTS
@@ -96,6 +97,7 @@ const CUSTOM_BREAKPOINTS = [
     MatSortModule,
     // ChartsModule,
     MatExpansionModule,
+    MatPaginatorModule
     // AngularEditorModule,
     // NgxSkeletonLoaderModule,
     // NgxMatSelectSearchModule,
@@ -130,7 +132,8 @@ const CUSTOM_BREAKPOINTS = [
     MatTooltipModule,
     MatSortModule,
     MatExpansionModule,
-
+    MatChipsModule,
+    MatPaginatorModule
     // MatDatepickerModule,
     // MatNativeDateModule,
   ],

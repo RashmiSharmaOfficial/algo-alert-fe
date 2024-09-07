@@ -12,7 +12,7 @@ const routes: Routes = [
   // { path: 'pricing', component: PricingComponent },
   // { path: 'contact', component: ContactComponent },
   {
-    path: 'dashboard',
+    path: '',
     loadChildren: () =>
       import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
   },
