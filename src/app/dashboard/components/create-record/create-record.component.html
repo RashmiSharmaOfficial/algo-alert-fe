@@ -1,6 +1,7 @@
 <h2 mat-dialog-title>Add Question</h2>
 <mat-dialog-content class="mat-typography">
-    <form [formGroup]="addQuestionForm">
+    <!-- {{addQuestionForm.value | json}} -->
+    <form [formGroup]="addQuestionForm" (ngSubmit)="addRecord()">
         <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4">
             <mat-form-field appearance="fill">
                 <mat-label>Question</mat-label>
@@ -70,14 +71,10 @@
                 <textarea matInput placeholder="Comment" formControlName="quesComment"></textarea>
                 <!-- <input matInput placeholder="Comment" formControlName="quesComment"> -->
             </mat-form-field>
-
-
-
-
         </div>
     </form>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
     <button mat-button mat-dialog-close>Cancel</button>
-    <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Save</button>
+    <button mat-button [mat-dialog-close]="true" cdkFocusInitial [disabled]="addQuestionForm.invalid">Save</button>
 </mat-dialog-actions>

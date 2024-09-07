@@ -25,11 +25,14 @@ export class CreateRecordComponent implements OnInit {
     quesName: new FormControl('', [Validators.required]),
     quesDifficulty: new FormControl('Easy', [Validators.required]),
     quesPlatform: new FormControl('Leetcode', [Validators.required]),
-    quesSolved: new FormControl('', [Validators.required]),
+    quesSolved: new FormControl(''),
     quesLink: new FormControl('', [Validators.required]),
     quesComment: new FormControl(''),
     quesSolutionLink: new FormControl(''),
     quesRepeatFreq: new FormControl('', [Validators.required]),
+    quesFirstAttemptDate: new FormControl(''),
+    quesLastAttemptDate: new FormControl(''),
+    quesNextAttemptDate: new FormControl(''),
   })
 
   constructor() { }
@@ -55,24 +58,8 @@ export class CreateRecordComponent implements OnInit {
     }
   }
 
-  // edit(topic: Topics, event: MatChipEditedEvent) {
-  //   const value = event.value.trim();
-
-  //   // Remove topic if it no longer has a name
-  //   if (!value) {
-  //     this.remove(topic);
-  //     return;
-  //   }
-
-  //   // Edit existing topic
-  //   this.topics.push((topics: any) => {
-  //     const index = topics.indexOf(topic);
-  //     if (index >= 0) {
-  //       topics[index].name = value;
-  //       return [...topics];
-  //     }
-  //     return topics;
-  //   });
-  // }
+  addRecord() {
+    this.addQuestionForm.value;
+  }
 
 }
