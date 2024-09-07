@@ -16,6 +16,11 @@ const routes: Routes = [
     loadChildren: () =>
       import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
   },
+  {
+    path: 'auth',
+    loadChildren: () =>
+      import('./auth/auth.module').then((m) => m.AuthModule),
+  },
   { path: '**', redirectTo: '/home' } // Wildcard route for handling unknown paths
 ];
 
