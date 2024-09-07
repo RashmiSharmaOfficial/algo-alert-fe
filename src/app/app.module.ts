@@ -12,7 +12,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'; // <-- Import
 
 import { TableComponent } from './dashboard/containers/table/table.component';
 import { MatPaginatorModule } from '@angular/material/paginator'; // For paginator
-import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core'; // Import ErrorStateMatcher
+import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [AppComponent, NavbarComponent],
