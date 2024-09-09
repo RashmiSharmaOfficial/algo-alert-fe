@@ -3,6 +3,8 @@ import { Component, inject, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatChipInputEvent, MatChipEditedEvent } from '@angular/material/chips';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { QuestionRecordService } from '../../services/question-record.service';
+import { AddQuesRecordDTO } from '../../types/codingPracticeTable.interface';
 
 export interface Topics {
   name: string;
@@ -17,11 +19,11 @@ export class CreateRecordComponent implements OnInit {
   readonly addOnBlur = true;
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
   // readonly topics = signal<Topics[]>([{ name: 'Arrays' }]);
-  topics: Topics[] = [{ name: 'Arrays' }]
+  topics: string[] = []
   readonly announcer = inject(LiveAnnouncer);
 
   addQuestionForm = new FormGroup({
-    topic: new FormControl('', [Validators.required]),
+    topic: new FormControl<string[]>([], [Validators.required]),
     quesName: new FormControl('', [Validators.required]),
     quesDifficulty: new FormControl('Easy', [Validators.required]),
     quesPlatform: new FormControl('Leetcode', [Validators.required]),
@@ -35,7 +37,7 @@ export class CreateRecordComponent implements OnInit {
     quesNextAttemptDate: new FormControl(''),
   })
 
-  constructor() { }
+  constructor(private questionRecordService: QuestionRecordService) { }
 
   ngOnInit(): void {
   }
@@ -43,23 +45,48 @@ export class CreateRecordComponent implements OnInit {
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
 
-    // Add our topic
     if (value) {
-      this.topics.push((topics: any) => [...topics, { name: value }]);
+      const topics = this.addQuestionForm.get('topic')?.value as string[];
+      topics.push(value);
+      this.addQuestionForm.get('topic')?.setValue(topics);
     }
 
-    // Clear the input value
     event.chipInput!.clear();
   }
 
   remove(index: number): void {
+    const topics = this.addQuestionForm.get('topic')?.value as string[];
+
     if (index >= 0) {
-      this.topics.splice(index, 1);
+      topics.splice(index, 1); // Correctly remove the item
+      this.addQuestionForm.get('topic')?.setValue(topics);
     }
   }
 
+
+
   addRecord() {
-    this.addQuestionForm.value;
+    const formValue = this.addQuestionForm.value as Partial<AddQuesRecordDTO>;
+
+    // Ensure topic is always an array
+    const dto: AddQuesRecordDTO = {
+      topic: formValue.topic ?? [], // default to empty array if undefined or null
+      quesName: formValue.quesName ?? '',
+      quesDifficulty: formValue.quesDifficulty ?? '',
+      quesPlatform: formValue.quesPlatform ?? '',
+      quesSolved: formValue.quesSolved ?? false,
+      quesLink: formValue.quesLink ?? '',
+      quesComment: formValue.quesComment ?? '',
+      quesSolutionLink: formValue.quesSolutionLink ?? '',
+      quesRepeatFreq: formValue.quesRepeatFreq ?? 0
+    };
+
+    this.questionRecordService.createQuestionRecord(dto).subscribe((res) => {
+      console.log("wewee Success")
+    }, (err) => {
+      console.log("wewee failure")
+
+    })
   }
 
 }

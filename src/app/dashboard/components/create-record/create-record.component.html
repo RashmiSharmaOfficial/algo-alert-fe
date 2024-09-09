@@ -1,7 +1,7 @@
 <h2 mat-dialog-title>Add Question</h2>
 <mat-dialog-content class="mat-typography">
     <!-- {{addQuestionForm.value | json}} -->
-    <form [formGroup]="addQuestionForm" (ngSubmit)="addRecord()">
+    <form [formGroup]="addQuestionForm">
         <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-4">
             <mat-form-field appearance="fill">
                 <mat-label>Question</mat-label>
@@ -50,11 +50,11 @@
                 <mat-label>Topics</mat-label>
                 <mat-chip-grid #chipGrid aria-label="Enter fruits">
                     <!-- @for (fruit of topics(); track fruit) { -->
-                    <ng-container *ngFor="let topic of topics; let i = index">
+                    <ng-container *ngFor="let topic of addQuestionForm.get('topic')?.value; let i = index">
                         <mat-chip-row (removed)="remove(i)" [editable]="true"
-                            [aria-description]="'press enter to edit ' + topic.name">
-                            {{topic.name}}
-                            <button matChipRemove [attr.aria-label]="'remove ' + topic.name">
+                            [aria-description]="'press enter to edit ' + topic">
+                            {{topic}}
+                            <button matChipRemove [attr.aria-label]="'remove ' + topic">
                                 <mat-icon>cancel</mat-icon>
                             </button>
                         </mat-chip-row>
@@ -62,7 +62,7 @@
                     </ng-container>
                     <input placeholder="Add topics.." [matChipInputFor]="chipGrid"
                         [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
-                        (matChipInputTokenEnd)="add($event)" formControlName="topic" />
+                        (matChipInputTokenEnd)="add($event)" />
                 </mat-chip-grid>
             </mat-form-field>
 
@@ -76,5 +76,6 @@
 </mat-dialog-content>
 <mat-dialog-actions align="end">
     <button mat-button mat-dialog-close>Cancel</button>
-    <button mat-button [mat-dialog-close]="true" cdkFocusInitial [disabled]="addQuestionForm.invalid">Save</button>
+    <!-- [disabled]="addQuestionForm.invalid" -->
+    <button mat-button [mat-dialog-close]="true" cdkFocusInitial (click)="addRecord()">Save</button>
 </mat-dialog-actions>
