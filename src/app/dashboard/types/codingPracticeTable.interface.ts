@@ -13,3 +13,15 @@ export interface CodingPracticeTable {
   quesLastAttemptDate: string;
   quesNextAttemptDate: string;
 }
+
+export interface AddQuesRecordDTO {
+  topic: string[];
+  quesName: string;
+  quesDifficulty: string;
+  quesPlatform: string;
+  quesSolved: boolean;
+  quesLink: string;
+  quesComment: string;
+  quesSolutionLink: string;
+  quesRepeatFreq: number;
+}
