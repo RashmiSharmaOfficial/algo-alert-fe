@@ -4,7 +4,7 @@ import * as fromContainers from './containers';
 import * as fromComponents from './components';
 import { AuthRoutingModule } from './auth.routing.module';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
-
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -14,10 +14,11 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
   imports: [
     CommonModule,
     AuthRoutingModule,
-    AngularFireAuthModule, // Import AngularFireAuthModule
+    AngularFireAuthModule,
+    ReactiveFormsModule,
   ],
   providers: [
-   
+
   ]
 })
 export class AuthModule { }

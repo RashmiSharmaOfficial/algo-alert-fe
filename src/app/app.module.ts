@@ -8,14 +8,13 @@ import { MaterialModule } from './shared/material/material.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { NavbarComponent } from './navbar/navbar.component';
 
-import { FormsModule, ReactiveFormsModule } from '@angular/forms'; // <-- Import FormsModule
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TableComponent } from './dashboard/containers/table/table.component';
-import { MatPaginatorModule } from '@angular/material/paginator'; // For paginator
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/material/core';
-import { AngularFireModule } from '@angular/fire/compat';
-import { AngularFireAuthModule } from '@angular/fire/compat/auth';
-import { environment } from '../environments/environment';
+import { AngularFireModule } from "@angular/fire/compat";
+import { AngularFireAuthModule } from "@angular/fire/compat/auth";
+import { environment } from "../environments/environment";
 
 @NgModule({
   declarations: [AppComponent, NavbarComponent],
@@ -26,6 +25,9 @@ import { environment } from '../environments/environment';
     MaterialModule,
     DashboardModule,
     FormsModule,
+    ReactiveFormsModule,
+    AngularFireAuthModule,
+    AngularFireModule.initializeApp(environment.firebase),
   ],
   providers: [
     { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher } // Add the ErrorStateMatcher provider
