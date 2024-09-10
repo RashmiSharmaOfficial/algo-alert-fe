@@ -1,5 +1,5 @@
 export interface CodingPracticeTable {
-  quesId: string;
+  id?: string;
   topic: string[];
   quesName: string;
   quesDifficulty: string;
@@ -9,9 +9,9 @@ export interface CodingPracticeTable {
   quesComment: string;
   quesSolutionLink: string;
   quesRepeatFreq: number;
-  quesFirstAttemptDate: string;
-  quesLastAttemptDate: string;
-  quesNextAttemptDate: string;
+  quesFirstAttemptDate?: string;
+  quesLastAttemptDate?: string;
+  quesNextAttemptDate?: string;
 }
 
 export interface AddQuesRecordDTO {

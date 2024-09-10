@@ -1,13 +1,16 @@
-<div class="example-container p-6 bg-gray-50 rounded-lg shadow-md">
+<div class="p-6 bg-gray-50 rounded-lg shadow-md">
   <div class="flex flex-row-reverse py-4">
     <button mat-flat-button (click)="openCreateRecordDialog()">Add Ques</button>
   </div>
-  <table mat-table [dataSource]="dataSource" class="w-full text-left table-auto bg-white rounded-lg shadow-sm border border-gray-200">
+  <table mat-table [dataSource]="dataSource"
+    class="w-full text-left table-auto bg-white rounded-lg shadow-sm border border-gray-200">
 
     <!-- quesFirstAttemptDate Column -->
     <ng-container matColumnDef="quesFirstAttemptDate">
       <th mat-header-cell *matHeaderCellDef class="px-4 py-3 text-sm font-semibold text-gray-700 bg-gray-100">Date</th>
-      <td mat-cell *matCellDef="let element" class="px-4 py-3 text-sm text-gray-800">{{ element.quesFirstAttemptDate }}</td>
+      <td mat-cell *matCellDef="let element" class="px-4 py-3 text-sm text-gray-800">{{ element.quesFirstAttemptDate |
+        date: 'mediumDate' }}
+      </td>
     </ng-container>
 
     <!-- topic Column -->
@@ -18,7 +21,8 @@
           <div [ngClass]="{ 'text-clamp': !isExpanded[element.quesId], 'text-expanded': isExpanded[element.quesId] }">
             {{ element.topic.join(', ') }}
           </div>
-          <button *ngIf="isClamped(element.topic.join(', '))" (click)="toggleExpand(element.quesId)" class="read-more-btn">
+          <button *ngIf="isClamped(element.topic.join(', '))" (click)="toggleExpand(element.quesId)"
+            class="read-more-btn">
             {{ isExpanded[element.quesId] ? 'Read less' : 'Read more' }}
           </button>
         </div>
@@ -42,7 +46,8 @@
 
     <!-- quesDifficulty Column -->
     <ng-container matColumnDef="quesDifficulty">
-      <th mat-header-cell *matHeaderCellDef class="px-4 py-3 text-sm font-semibold text-gray-700 bg-gray-100">Difficulty</th>
+      <th mat-header-cell *matHeaderCellDef class="px-4 py-3 text-sm font-semibold text-gray-700 bg-gray-100">Difficulty
+      </th>
       <td mat-cell *matCellDef="let element" class="px-4 py-3 text-sm text-gray-800"><span [ngStyle]="{
         'background-color': getBgColor(element.quesDifficulty),
         'color': getColor(element.quesDifficulty)
@@ -51,13 +56,15 @@
 
     <!-- quesPlatform Column -->
     <ng-container matColumnDef="quesPlatform">
-      <th mat-header-cell *matHeaderCellDef class="px-4 py-3 text-sm font-semibold text-gray-700 bg-gray-100">Platform</th>
+      <th mat-header-cell *matHeaderCellDef class="px-4 py-3 text-sm font-semibold text-gray-700 bg-gray-100">Platform
+      </th>
       <td mat-cell *matCellDef="let element" class="px-4 py-3 text-sm text-gray-800">{{ element.quesPlatform }}</td>
     </ng-container>
 
     <!-- quesSolved Column -->
     <ng-container matColumnDef="quesSolved">
-      <th mat-header-cell *matHeaderCellDef class="px-4 py-3 text-sm font-semibold text-gray-700 bg-gray-100">Solved</th>
+      <th mat-header-cell *matHeaderCellDef class="px-4 py-3 text-sm font-semibold text-gray-700 bg-gray-100">Solved
+      </th>
       <td mat-cell *matCellDef="let element" class="px-4 py-3 text-sm text-gray-800">
         <mat-icon *ngIf="element.quesSolved" class="text-green-500">check_circle</mat-icon>
         <mat-icon *ngIf="!element.quesSolved" class="text-red-500">cancel</mat-icon>
@@ -74,7 +81,8 @@
 
     <!-- quesComment Column -->
     <ng-container matColumnDef="quesComment">
-      <th mat-header-cell *matHeaderCellDef class="px-4 py-3 text-sm font-semibold text-gray-700 bg-gray-100">Comment</th>
+      <th mat-header-cell *matHeaderCellDef class="px-4 py-3 text-sm font-semibold text-gray-700 bg-gray-100">Comment
+      </th>
       <td mat-cell *matCellDef="let element" class="px-4 py-3 text-sm text-gray-800">
         <div class="relative">
           <div [ngClass]="{ 'text-clamp': !isExpanded[element.quesId], 'text-expanded': isExpanded[element.quesId] }">
@@ -89,7 +97,8 @@
 
     <!-- quesSolutionLink Column -->
     <ng-container matColumnDef="quesSolutionLink">
-      <th mat-header-cell *matHeaderCellDef class="px-4 py-3 text-sm font-semibold text-gray-700 bg-gray-100">Solution Link</th>
+      <th mat-header-cell *matHeaderCellDef class="px-4 py-3 text-sm font-semibold text-gray-700 bg-gray-100">Solution
+        Link</th>
       <td mat-cell *matCellDef="let element" class="px-4 py-3 text-sm text-gray-800">
         <a href="{{ element.quesSolutionLink }}" target="_blank" class="text-blue-600 hover:underline">View</a>
       </td>
@@ -97,20 +106,39 @@
 
     <!-- quesRepeatFreq Column -->
     <ng-container matColumnDef="quesRepeatFreq">
-      <th mat-header-cell *matHeaderCellDef class="px-4 py-3 text-sm font-semibold text-gray-700 bg-gray-100">Repeat Freq</th>
+      <th mat-header-cell *matHeaderCellDef class="px-4 py-3 text-sm font-semibold text-gray-700 bg-gray-100">Repeat
+        Freq</th>
       <td mat-cell *matCellDef="let element" class="px-4 py-3 text-sm text-gray-800">{{ element.quesRepeatFreq }}</td>
     </ng-container>
 
     <!-- quesLastAttemptDate Column -->
     <ng-container matColumnDef="quesLastAttemptDate">
-      <th mat-header-cell *matHeaderCellDef class="px-4 py-3 text-sm font-semibold text-gray-700 bg-gray-100">Last Attempt</th>
-      <td mat-cell *matCellDef="let element" class="px-4 py-3 text-sm text-gray-800">{{ element.quesLastAttemptDate }}</td>
+      <th mat-header-cell *matHeaderCellDef class="px-4 py-3 text-sm font-semibold text-gray-700 bg-gray-100">Last
+        Attempt</th>
+      <td mat-cell *matCellDef="let element" class="px-4 py-3 text-sm text-gray-800">{{ element.quesLastAttemptDate |
+        date: 'mediumDate' }}
+      </td>
     </ng-container>
 
     <!-- quesNextAttemptDate Column -->
     <ng-container matColumnDef="quesNextAttemptDate">
-      <th mat-header-cell *matHeaderCellDef class="px-4 py-3 text-sm font-semibold text-gray-700 bg-gray-100">Next Attempt</th>
-      <td mat-cell *matCellDef="let element" class="px-4 py-3 text-sm text-gray-800">{{ element.quesNextAttemptDate }}</td>
+      <th mat-header-cell *matHeaderCellDef class="px-4 py-3 text-sm font-semibold text-gray-700 bg-gray-100">Next
+        Attempt</th>
+      <td mat-cell *matCellDef="let element" class="px-4 py-3 text-sm text-gray-800">{{ element.quesNextAttemptDate |
+        date: 'mediumDate'}}
+      </td>
+    </ng-container>
+
+    <!-- actions Column -->
+    <ng-container matColumnDef="actionCol">
+      <th mat-header-cell *matHeaderCellDef class="px-4 py-3 text-sm font-semibold text-gray-700 bg-gray-100">Action
+      </th>
+      <td mat-cell *matCellDef="let element" class="px-4 py-3 text-sm text-gray-800">
+        <div class="flex items-center justify-end">
+          <span (click)="editRecord(element)"><mat-icon class="text-blue-500">mode_edit</mat-icon></span>
+          <span (click)="deleteRecord(element)"><mat-icon class="text-red-500">delete</mat-icon></span>
+        </div>
+      </td>
     </ng-container>
 
     <!-- Table Header and Rows -->
