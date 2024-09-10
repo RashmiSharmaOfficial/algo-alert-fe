@@ -7,22 +7,25 @@ import { FormControl } from '@angular/forms';
 import { DIFFICULTY_BG_COLOR, DIFFICULTY_TXT_COLOR } from '../../types/enums';
 import { CreateRecordComponent } from '../../components';
 import { MatDialog } from '@angular/material/dialog';
+import { QuestionRecordService } from '../../services/question-record.service';
+import { SnackbarService } from 'src/app/shared/services/snackbar.service';
+import { CodingPracticeTable } from '../../types/codingPracticeTable.interface';
 
-export interface CodingPracticeTable {
-  quesFirstAttemptDate: string;
-  topic: string[];
-  quesName: string;
-  quesDifficulty: string;
-  quesPlatform: string;
-  quesSolved: boolean;
-  quesLink: string;
-  quesComment: string;
-  quesSolutionLink: string;
-  quesRepeatFreq: number;
-  quesLastAttemptDate: string;
-  quesNextAttemptDate: string;
-  quesId: number;  // Add a unique identifier for expanding functionality
-}
+// export interface CodingPracticeTable {
+//   topic: string[];
+//   quesName: string;
+//   quesDifficulty: string;
+//   quesPlatform: string;
+//   quesSolved: boolean;
+//   quesLink: string;
+//   quesComment: string;
+//   quesSolutionLink: string;
+//   quesRepeatFreq: number;
+//   quesFirstAttemptDate?: string;
+//   quesLastAttemptDate?: string;
+//   quesNextAttemptDate?: string;
+//   id?: string;  // Add a unique identifier for expanding functionality
+// }
 
 @Component({
   selector: 'app-table',
@@ -34,17 +37,18 @@ export class TableComponent implements OnInit {
     'quesFirstAttemptDate', 'topic', 'quesName', 'quesDifficulty',
     'quesPlatform', 'quesSolved', 'quesLink', 'quesComment',
     'quesSolutionLink', 'quesRepeatFreq', 'quesLastAttemptDate',
-    'quesNextAttemptDate'
+    'quesNextAttemptDate', 'actionCol'
   ];
-  dataSource = new MatTableDataSource<CodingPracticeTable>(ELEMENT_DATA);
+  dataSource = new MatTableDataSource<CodingPracticeTable>();
   pageSize = 10;
   searchQuery: string = '';
   isExpanded: { [key: number]: boolean } = {};
   searchControl = new FormControl('');
   bgColorMap = DIFFICULTY_BG_COLOR;
   textColorMap = DIFFICULTY_TXT_COLOR;
+  quesRecData = [];
 
-  constructor() {
+  constructor(private questionRecordService: QuestionRecordService, private snackbarService: SnackbarService) {
     this.searchControl.valueChanges.subscribe(value => {
       console.log('Search query:', value);
       // Handle search query changes here
@@ -52,11 +56,20 @@ export class TableComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.fetchAllQuestions();
+
     this.dataSource.filterPredicate = (data: CodingPracticeTable, filter: string) => {
       return data.quesName.toLowerCase().includes(filter) ||
         data.topic.join(', ').toLowerCase().includes(filter) ||
         data.quesComment.toLowerCase().includes(filter);
     };
+  }
+
+  fetchAllQuestions() {
+    this.questionRecordService.fetchAllQuestions().subscribe((res) => {
+      this.quesRecData = res;
+      this.dataSource = new MatTableDataSource<CodingPracticeTable>(this.quesRecData);
+    })
   }
 
   pageChange(event: PageEvent) {
@@ -91,6 +104,7 @@ export class TableComponent implements OnInit {
 
   readonly dialog = inject(MatDialog);
 
+
   openCreateRecordDialog() {
     const dialogRef = this.dialog.open(CreateRecordComponent);
 
@@ -99,11 +113,49 @@ export class TableComponent implements OnInit {
     });
   }
 
+  editRecord(record: any) {
+    const dialogRef = this.dialog.open(CreateRecordComponent, {
+      data: {
+        editedRecord: record,
+        isEditing: true
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.questionRecordService.fetchAllQuestions().subscribe();
+
+      }
+      console.log(`Dialog result: ${result}`);
+    });
+  }
+
+
+
+  deleteRecord(record: any) {
+    this.questionRecordService.deleteRecordById(record.id).subscribe({
+      next: (res) => {
+        this.snackbarService.showDefaultToast("Deleted!");  // For success response (200)
+        this.questionRecordService.fetchAllQuestions().subscribe();
+      },
+      error: (err) => {
+        if (err.status === 404) {
+          this.snackbarService.showDefaultToast("Record not found!");  // For 404
+        } else if (err.status === 400) {
+          this.snackbarService.showDefaultToast("Invalid ID!");  // For 400
+        } else {
+          this.snackbarService.showDefaultToast("Error while deleting!");  // For 500 or other errors
+        }
+      }
+    });
+  }
+
+
 }
 
 const ELEMENT_DATA: CodingPracticeTable[] = [
   {
-    quesId: 1,
+    id: '1',
     topic: ['Array', 'Divide and Conquer'],
     quesName: '189. Rotate Array',
     quesDifficulty: 'Easy',
@@ -118,7 +170,7 @@ const ELEMENT_DATA: CodingPracticeTable[] = [
     quesSolutionLink: 'NA',
   },
   {
-    quesId: 2,
+    id: '2',
     topic: ['Array', 'Two Pointers'],
     quesName: 'Union of Two Sorted Arrays',
     quesDifficulty: 'Medium',
@@ -133,7 +185,7 @@ const ELEMENT_DATA: CodingPracticeTable[] = [
     quesSolutionLink: 'NA',
   },
   {
-    quesId: 3,
+    id: '3',
     topic: ['Bitwise'],
     quesName: '136. Single Number',
     quesDifficulty: 'Medium',
@@ -148,7 +200,7 @@ const ELEMENT_DATA: CodingPracticeTable[] = [
     quesSolutionLink: 'NA',
   },
   {
-    quesId: 4,
+    id: '4',
     topic: ['Array', 'Divide and Conquer'],
     quesName: '189. Rotate Array',
     quesDifficulty: 'Easy',
@@ -163,7 +215,7 @@ const ELEMENT_DATA: CodingPracticeTable[] = [
     quesSolutionLink: 'NA',
   },
   {
-    quesId: 5,
+    id: '5',
     topic: ['Array', 'Two Pointers'],
     quesName: 'Union of Two Sorted Arrays',
     quesDifficulty: 'Medium',
@@ -178,7 +230,7 @@ const ELEMENT_DATA: CodingPracticeTable[] = [
     quesSolutionLink: 'NA',
   },
   {
-    quesId: 6,
+    id: '6',
     topic: ['Bitwise'],
     quesName: '136. Single Number',
     quesDifficulty: 'Hard',

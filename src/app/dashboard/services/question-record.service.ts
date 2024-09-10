@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AddQuesRecordDTO } from '../types/codingPracticeTable.interface';
+import { AddQuesRecordDTO, CodingPracticeTable } from '../types/codingPracticeTable.interface';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -14,15 +14,19 @@ export class QuestionRecordService {
     return this.http.post(`${environment.BASE_URL}/question`, data);
   }
 
-  updateQuestionRecordById(id: string, data: AddQuesRecordDTO): Observable<any> {
+  updateQuestionRecordById(id: string, data: CodingPracticeTable): Observable<any> {
     return this.http.put(`${environment.BASE_URL}/question/${id}`, data);
   }
 
-  fetchAllQuestions() {
+  fetchAllQuestions(): Observable<any> {
     return this.http.get(`${environment.BASE_URL}/question`);
   }
 
-  fetchQuestionRecordById(id: string) {
+  fetchQuestionRecordById(id: string): Observable<any> {
     return this.http.get(`${environment.BASE_URL}/question/${id}`);
+  }
+
+  deleteRecordById(id: string) {
+    return this.http.delete(`${environment.BASE_URL}/question/${id}`);
   }
 }
