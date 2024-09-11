@@ -10,6 +10,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { QuestionRecordService } from '../../services/question-record.service';
 import { SnackbarService } from 'src/app/shared/services/snackbar.service';
 import { CodingPracticeTable } from '../../types/codingPracticeTable.interface';
+import { WarningDialogComponent } from 'src/app/shared/components/warning-dialog/warning-dialog.component';
 
 // export interface CodingPracticeTable {
 //   topic: string[];
@@ -40,7 +41,9 @@ export class TableComponent implements OnInit {
     'quesNextAttemptDate', 'actionCol'
   ];
   dataSource = new MatTableDataSource<CodingPracticeTable>();
-  pageSize = 10;
+  currentPage = 0;
+  pageSize = 5;
+  totalLength = -1;
   searchQuery: string = '';
   isExpanded: { [key: number]: boolean } = {};
   searchControl = new FormControl('');
@@ -65,15 +68,18 @@ export class TableComponent implements OnInit {
     };
   }
 
-  fetchAllQuestions() {
-    this.questionRecordService.fetchAllQuestions().subscribe((res) => {
-      this.quesRecData = res;
+  fetchAllQuestions(currentPage = 0, pageSize = 5) {
+    this.questionRecordService.fetchAllFilteredQuestions('fb1', currentPage, pageSize).subscribe((res) => {
+      this.quesRecData = res.response_data;
+      this.totalLength = res.totalCount;
       this.dataSource = new MatTableDataSource<CodingPracticeTable>(this.quesRecData);
     })
   }
 
-  pageChange(event: PageEvent) {
+  pageChanged(event: PageEvent) {
+    this.currentPage = event.pageIndex;
     this.pageSize = event.pageSize;
+    this.fetchAllQuestions(this.currentPage, this.pageSize);
   }
 
   openAddQuestionPopup() {
@@ -109,7 +115,9 @@ export class TableComponent implements OnInit {
     const dialogRef = this.dialog.open(CreateRecordComponent);
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
+      if (result) {
+        this.fetchAllQuestions();
+      }
     });
   }
 
@@ -123,31 +131,39 @@ export class TableComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.questionRecordService.fetchAllQuestions().subscribe();
-
+        this.fetchAllQuestions();
       }
-      console.log(`Dialog result: ${result}`);
     });
   }
 
 
 
   deleteRecord(record: any) {
-    this.questionRecordService.deleteRecordById(record.id).subscribe({
-      next: (res) => {
-        this.snackbarService.showDefaultToast("Deleted!");  // For success response (200)
-        this.questionRecordService.fetchAllQuestions().subscribe();
-      },
-      error: (err) => {
-        if (err.status === 404) {
-          this.snackbarService.showDefaultToast("Record not found!");  // For 404
-        } else if (err.status === 400) {
-          this.snackbarService.showDefaultToast("Invalid ID!");  // For 400
-        } else {
-          this.snackbarService.showDefaultToast("Error while deleting!");  // For 500 or other errors
-        }
+    const dialogRef = this.dialog.open(WarningDialogComponent, {
+      // width: '250px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+
+        this.questionRecordService.deleteRecordById(record.id).subscribe({
+          next: (res) => {
+            this.snackbarService.showDefaultToast("Deleted!");  // For success response (200)
+            this.fetchAllQuestions();
+          },
+          error: (err) => {
+            if (err.status === 404) {
+              this.snackbarService.showDefaultToast("Record not found!");  // For 404
+            } else if (err.status === 400) {
+              this.snackbarService.showDefaultToast("Invalid ID!");  // For 400
+            } else {
+              this.snackbarService.showDefaultToast("Error while deleting!");  // For 500 or other errors
+            }
+          }
+        });
       }
     });
+
   }
 
 
