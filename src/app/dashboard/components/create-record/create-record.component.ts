@@ -102,7 +102,7 @@ export class CreateRecordComponent implements OnInit {
     this.questionRecordService.createQuestionRecord(dto).subscribe({
       next: (res) => {
         this.snackbarService.showDefaultToast("Created record!");  // For success response (200)
-        this.questionRecordService.fetchAllQuestions().subscribe();
+        this.questionRecordService.fetchAllFilteredQuestions('fb1').subscribe();
       },
       error: (err) => {
         if (err.status === 404) {

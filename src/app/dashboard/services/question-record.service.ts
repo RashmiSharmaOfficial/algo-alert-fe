@@ -19,7 +19,30 @@ export class QuestionRecordService {
   }
 
   fetchAllQuestions(): Observable<any> {
-    return this.http.get(`${environment.BASE_URL}/question`);
+    return this.http.get(`${environment.BASE_URL}/question/all`);
+  }
+
+  fetchAllFilteredQuestions(firebase_uid: string, page?: number, size?: number, searchQuery?: string): Observable<any> {
+    // Initialize the params object with mandatory parameters
+    let params: any = {
+      firebase_uid,
+      searchQuery: ''
+    };
+
+    if (page) {
+      params.page = page.toString();
+    }
+
+    if (size) {
+      params.size = size.toString();
+    }
+
+    // Conditionally add the searchQuery parameter if it's provided
+    if (searchQuery) {
+      params.searchQuery = searchQuery;
+    }
+
+    return this.http.get(`${environment.BASE_URL}/question/filtered`, { params });
   }
 
   fetchQuestionRecordById(id: string): Observable<any> {
@@ -27,6 +50,6 @@ export class QuestionRecordService {
   }
 
   deleteRecordById(id: string) {
-    return this.http.delete(`${environment.BASE_URL}/question/${id}`);
+    return this.http.delete(`${environment.BASE_URL}/question/${id}`, { responseType: 'text' });
   }
 }
