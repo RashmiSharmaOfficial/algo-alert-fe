@@ -1,18 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-// import { HomeComponent } from './home/home.component';
-// import { FeaturesComponent } from './features/features.component';
-// import { PricingComponent } from './pricing/pricing.component';
-// import { ContactComponent } from './contact/contact.component';
+import { AuthGuard } from './auth/guard/auth-guard.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: '', pathMatch: 'full' }, // Redirect to Home by default
-  // { path: 'home', component: HomeComponent },
-  // { path: 'features', component: FeaturesComponent },
-  // { path: 'pricing', component: PricingComponent },
-  // { path: 'contact', component: ContactComponent },
   {
     path: '',
+    // canActivateChild: [AuthGuard],
     loadChildren: () =>
       import('./dashboard/dashboard.module').then((m) => m.DashboardModule),
   },
@@ -28,4 +22,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
