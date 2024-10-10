@@ -15,7 +15,8 @@ import { ErrorStateMatcher, ShowOnDirtyErrorStateMatcher } from '@angular/materi
 import { AngularFireModule } from "@angular/fire/compat";
 import { AngularFireAuthModule } from "@angular/fire/compat/auth";
 import { environment } from "../environments/environment";
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { AuthInterceptor } from './auth/interceptor/AuthInterceptor.interceptor';
 
 @NgModule({
   declarations: [AppComponent, NavbarComponent],
@@ -32,7 +33,8 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule
   ],
   providers: [
-    { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher } // Add the ErrorStateMatcher provider
+    { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher }, // Add the ErrorStateMatcher provider
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
   bootstrap: [AppComponent],
 })
