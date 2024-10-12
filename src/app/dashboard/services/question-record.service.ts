@@ -49,6 +49,29 @@ export class QuestionRecordService {
     return this.http.get(`${environment.BASE_URL}/question/${id}`);
   }
 
+  fetchQuestionsForToday(firebase_uid: string, page?: number, size?: number, searchQuery?: string): Observable<any> {
+    // Initialize the params object with mandatory parameters
+    let params: any = {
+      firebase_uid,
+      searchQuery: ''
+    };
+
+    if (page) {
+      params.page = page.toString();
+    }
+
+    if (size) {
+      params.size = size.toString();
+    }
+
+    // Conditionally add the searchQuery parameter if it's provided
+    if (searchQuery) {
+      params.searchQuery = searchQuery;
+    }
+
+    return this.http.get(`${environment.BASE_URL}/question/attempt-today`, { params });
+  }
+
   deleteRecordById(id: string) {
     return this.http.delete(`${environment.BASE_URL}/question/${id}`, { responseType: 'text' });
   }

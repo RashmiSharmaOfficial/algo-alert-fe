@@ -32,12 +32,23 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  async onSubmit() {
+  async login() {
     if (this.loginForm.valid) {
       const { email, password } = this.loginForm.value;
       try {
         const userCredential = await this.afAuth.signInWithEmailAndPassword(email, password);
         if (userCredential.user) {
+          const user = userCredential.user;
+
+          // Store user information in local storage
+          localStorage.setItem('uid', user.uid);
+          localStorage.setItem('name', user.displayName || '');
+          localStorage.setItem('email', user.email || '');
+
+          // get the token and store it in cookies
+          const token = await user.getIdToken();
+          document.cookie = `authToken=${token};path=/;secure`;
+
           console.log('User signed in successfully:', userCredential.user);
           this.router.navigate(['/questions']);
         }

@@ -50,6 +50,7 @@ export class TableComponent implements OnInit {
   bgColorMap = DIFFICULTY_BG_COLOR;
   textColorMap = DIFFICULTY_TXT_COLOR;
   quesRecData = [];
+  firebase_uid = "";
 
   constructor(private questionRecordService: QuestionRecordService, private snackbarService: SnackbarService) {
     this.searchControl.valueChanges.subscribe(value => {
@@ -59,6 +60,8 @@ export class TableComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.firebase_uid = localStorage.getItem("uid") || "";
+
     this.fetchAllQuestions();
 
     this.dataSource.filterPredicate = (data: CodingPracticeTable, filter: string) => {
@@ -69,7 +72,7 @@ export class TableComponent implements OnInit {
   }
 
   fetchAllQuestions(currentPage = 0, pageSize = 5) {
-    this.questionRecordService.fetchAllFilteredQuestions('fb1', currentPage, pageSize).subscribe((res) => {
+    this.questionRecordService.fetchAllFilteredQuestions(this.firebase_uid, currentPage, pageSize).subscribe((res) => {
       this.quesRecData = res.response_data;
       this.totalLength = res.totalCount;
       this.dataSource = new MatTableDataSource<CodingPracticeTable>(this.quesRecData);

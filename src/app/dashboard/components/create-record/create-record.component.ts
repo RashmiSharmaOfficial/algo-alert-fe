@@ -25,6 +25,8 @@ export class CreateRecordComponent implements OnInit {
   topics: string[] = []
   readonly announcer = inject(LiveAnnouncer);
 
+  firebase_uid = "";
+
   questionForm = new FormGroup({
     topic: new FormControl<string[]>([], [Validators.required]),
     quesName: new FormControl('', [Validators.required]),
@@ -43,6 +45,8 @@ export class CreateRecordComponent implements OnInit {
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, private questionRecordService: QuestionRecordService, private snackbarService: SnackbarService) { }
 
   ngOnInit(): void {
+    this.firebase_uid = localStorage.getItem("uid") || "";
+
     if (!_.isEmpty(this.data?.editedRecord)) {
       this.questionForm.patchValue({
         topic: this.data.editedRecord.topic ?? [], // default to empty array if undefined or null
@@ -88,6 +92,7 @@ export class CreateRecordComponent implements OnInit {
 
     // Ensure topic is always an array
     const dto: AddQuesRecordDTO = {
+      firebase_uid: this.firebase_uid,
       topic: formValue.topic ?? [], // default to empty array if undefined or null
       quesName: formValue.quesName ?? '',
       quesDifficulty: formValue.quesDifficulty ?? '',
@@ -102,7 +107,7 @@ export class CreateRecordComponent implements OnInit {
     this.questionRecordService.createQuestionRecord(dto).subscribe({
       next: (res) => {
         this.snackbarService.showDefaultToast("Created record!");  // For success response (200)
-        this.questionRecordService.fetchAllFilteredQuestions('fb1').subscribe();
+        this.questionRecordService.fetchAllFilteredQuestions(this.firebase_uid).subscribe();
       },
       error: (err) => {
         if (err.status === 404) {

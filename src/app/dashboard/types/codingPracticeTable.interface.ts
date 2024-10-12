@@ -15,6 +15,7 @@ export interface CodingPracticeTable {
 }
 
 export interface AddQuesRecordDTO {
+  firebase_uid: string;
   topic: string[];
   quesName: string;
   quesDifficulty: string;
