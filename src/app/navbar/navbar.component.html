@@ -4,13 +4,17 @@
       <div class="flex items-center ">
         <div class="flex items-center justify-center flex-row">
           <img src="assets/logo.png" alt="" class="h-10">
-          <a routerLink="/home" class="logoText text-3xl font-bold text-purple-600 ml-2">Algo Alert</a>
+          <a routerLink="/home" class="logoText text-3xl font-bold text-purple-600 ml-2">AlgoAlert</a>
         </div>
         <div class="hidden md:flex md:ml-10 md:space-x-8">
-          <a [routerLink]="['/home']" class="hover:text-purple-500">Home</a>
-          <a [routerLink]="['/questions']" class="hover:text-purple-500">Questions</a>
-          <a [routerLink]="['/']" class="hover:text-purple-500">Pricing</a>
-          <a [routerLink]="['/']" class="hover:text-purple-500">Contact</a>
+          <!-- <a [routerLink]="['/home']" class="hover:text-purple-500">Home</a> -->
+
+          <a *ngIf="showLogoutButton" [routerLink]="['/questions']" class="hover:text-purple-500">Questions</a>
+          <ng-container *ngIf="false">
+
+            <a *ngIf="showLogoutButton" [routerLink]="['/']" class="hover:text-purple-500">Dashboard</a>
+            <a *ngIf="showLogoutButton" [routerLink]="['/']" class="hover:text-purple-500">Contact</a>
+          </ng-container>
         </div>
       </div>
       <div class="flex items-center">
@@ -25,9 +29,9 @@
           </svg>
         </button>
         <div class="hidden md:flex items-center space-x-4">
-          <span (click)="logout()">Logout</span>
-          <a [routerLink]="['/auth/login']" class="hover:text-purple-500">Login</a>
-          <a [routerLink]="['/auth/signup']"
+          <span class="cursor-pointer text-base" *ngIf="showLogoutButton" (click)="logout()">Logout</span>
+          <a *ngIf="showAuthButtons" [routerLink]="['/auth/login']" class="hover:text-purple-500">Login</a>
+          <a *ngIf="showAuthButtons" [routerLink]="['/auth/signup']"
             class="bg-purple-600 text-white px-4 py-2 rounded-md hover:bg-purple-700">Sign Up</a>
         </div>
       </div>
@@ -37,17 +41,21 @@
   <!-- Mobile Menu -->
   <div class="md:hidden" *ngIf="isMenuOpen">
     <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-      <a routerLink="/home"
-        class="block px-3 py-2 rounded-md text-base font-medium hover:bg-purple-100 hover:text-purple-600">Home</a>
-      <a routerLink="/questions"
-        class="block px-3 py-2 rounded-md text-base font-medium hover:bg-purple-100 hover:text-purple-600">Questions</a>
-      <a routerLink="/pricing"
-        class="block px-3 py-2 rounded-md text-base font-medium hover:bg-purple-100 hover:text-purple-600">Pricing</a>
-      <a routerLink="/contact"
-        class="block px-3 py-2 rounded-md text-base font-medium hover:bg-purple-100 hover:text-purple-600">Contact</a>
-      <a routerLink="/auth/login"
+      <!-- <a routerLink="/home"
+        class="block px-3 py-2 rounded-md text-base font-medium hover:bg-purple-100 hover:text-purple-600">Home</a> -->
+      <ng-container *ngIf="false">
+
+        <a *ngIf="showLogoutButton" routerLink="/questions"
+          class="block px-3 py-2 rounded-md text-base font-medium hover:bg-purple-100 hover:text-purple-600">Questions</a>
+        <!-- <a routerLink="/pricing"
+        class="block px-3 py-2 rounded-md text-base font-medium hover:bg-purple-100 hover:text-purple-600">Pricing</a> -->
+
+        <a *ngIf="showLogoutButton" routerLink="/contact"
+          class="block px-3 py-2 rounded-md text-base font-medium hover:bg-purple-100 hover:text-purple-600">Contact</a>
+      </ng-container>
+      <a *ngIf="showAuthButtons" routerLink="/auth/login"
         class="block px-3 py-2 rounded-md text-base font-medium hover:bg-purple-100 hover:text-purple-600">Login</a>
-      <a routerLink="/auth/signup"
+      <a *ngIf="showAuthButtons" routerLink="/auth/signup"
         class="block bg-purple-600 text-white px-3 py-2 rounded-md text-base font-medium hover:bg-purple-700">Sign
         Up</a>
     </div>
